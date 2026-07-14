@@ -3,6 +3,7 @@ import { DashboardLayout } from "@/layouts/DashboardLayout";
 import { WelcomeBanner } from "@/components/dashboard/WelcomeBanner";
 import { ModulesGrid } from "@/components/dashboard/ModulesGrid";
 import { OperationsSummary } from "@/components/dashboard/OperationsSummary";
+import { AIConcierge } from "@/components/dashboard/AIConcierge";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 
 export const Route = createFileRoute("/dashboard")({
@@ -25,6 +26,7 @@ function DashboardPage() {
       <WelcomeBanner user={user} />
       <ModulesGrid />
       <OperationsSummary />
+      <AIConcierge />
     </DashboardLayout>
   );
 }
