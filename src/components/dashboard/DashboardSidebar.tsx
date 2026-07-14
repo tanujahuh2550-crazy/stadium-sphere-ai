@@ -1,6 +1,7 @@
+import { Link, useRouterState } from "@tanstack/react-router";
 import { Logo } from "@/components/Logo";
 import { ROLE_LABEL, type Role } from "@/services/authService";
-import { DASHBOARD_NAV } from "./navConfig";
+import { DASHBOARD_NAV, type NavItem } from "./navConfig";
 
 interface Props {
   collapsed: boolean;
@@ -8,6 +9,8 @@ interface Props {
 }
 
 export function DashboardSidebar({ collapsed, role }: Props) {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
   return (
     <aside
       aria-label="Primary navigation"
@@ -23,29 +26,41 @@ export function DashboardSidebar({ collapsed, role }: Props) {
         )}
       </div>
       <nav className="flex-1 space-y-1 p-3">
-        {DASHBOARD_NAV.map((n) => (
-          <button
-            key={n.label}
-            aria-current={n.active ? "page" : undefined}
-            className={`group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald/60 ${
-              n.active
-                ? "bg-white/[0.06] text-foreground"
-                : "text-muted-foreground hover:bg-white/[0.04] hover:text-foreground"
-            }`}
-          >
-            <span aria-hidden className={`text-base ${n.active ? "text-emerald" : ""}`}>{n.icon}</span>
-            {!collapsed && (
-              <>
-                <span className="flex-1">{n.label}</span>
-                {n.soon && (
-                  <span className="rounded-full border border-white/10 px-1.5 py-[1px] text-[9px] uppercase tracking-widest text-muted-foreground">
-                    Soon
-                  </span>
-                )}
-              </>
-            )}
-          </button>
-        ))}
+        {DASHBOARD_NAV.map((n) => {
+          const active = n.to ? pathname === n.to : !!n.active;
+          const content = (
+            <>
+              <span aria-hidden className={`text-base ${active ? "text-emerald" : ""}`}>{n.icon}</span>
+              {!collapsed && (
+                <>
+                  <span className="flex-1">{n.label}</span>
+                  {n.soon && (
+                    <span className="rounded-full border border-white/10 px-1.5 py-[1px] text-[9px] uppercase tracking-widest text-muted-foreground">
+                      Soon
+                    </span>
+                  )}
+                </>
+              )}
+            </>
+          );
+          const cls = `group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald/60 ${
+            active
+              ? "bg-white/[0.06] text-foreground"
+              : "text-muted-foreground hover:bg-white/[0.04] hover:text-foreground"
+          }`;
+          if (n.to && !n.soon) {
+            return (
+              <Link key={n.label} to={n.to} aria-current={active ? "page" : undefined} className={cls}>
+                {content}
+              </Link>
+            );
+          }
+          return (
+            <button key={n.label} aria-current={active ? "page" : undefined} className={cls} disabled={n.soon}>
+              {content}
+            </button>
+          );
+        })}
       </nav>
       {!collapsed && (
         <div className="m-3 rounded-xl border border-white/5 bg-white/[0.02] p-4 text-xs text-muted-foreground">
