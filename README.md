@@ -64,7 +64,7 @@ npm run dev
 
 ## 🌐 Live Demo
 
-(Add your Vercel deployment link here)
+https://stadium-sphere-ai.vercel.app/
 
 ---
 
