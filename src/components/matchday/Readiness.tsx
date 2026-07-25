@@ -1,46 +1,74 @@
 import { Check } from "lucide-react";
 
-const DONE = ["Ticket", "Identity", "Route", "Weather"];
+const CHECKS = [
+  "Ticket Verified",
+  "Identity Verified",
+  "Gate Assigned",
+  "Weather Checked",
+  "Travel Planned",
+];
+
 const REMINDERS = [
   { icon: "🧢", label: "Cap" },
   { icon: "💧", label: "Water" },
   { icon: "🪪", label: "ID" },
 ];
 
-export function Readiness({ percent = 90 }: { percent?: number }) {
+export function Readiness({ percent }: { percent?: number }) {
+  const value = percent ?? 100;
+
   return (
-    <section className="glass rounded-2xl p-6">
+    <section className="glass rounded-2xl p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald/20 hover:shadow-[0_20px_60px_-20px_oklch(0.78_0.17_158/0.35)]">
       <header className="flex items-center justify-between">
         <div>
-          <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Matchday Readiness</div>
-          <h2 className="mt-1 font-display text-lg">🏆 You're almost set</h2>
+          <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+            Matchday Readiness
+          </div>
+          <h2 className="mt-1 font-display text-lg">🏆 You're all set</h2>
         </div>
         <div className="text-right">
-          <div className="font-display text-3xl font-semibold text-emerald">{percent}%</div>
-          <div className="text-[10px] uppercase tracking-widest text-muted-foreground">Ready</div>
+          <div className="font-display text-3xl font-semibold text-emerald tabular-nums">
+            {value}%
+          </div>
+          <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
+            Ready
+          </div>
         </div>
       </header>
 
-      <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-white/5">
+      <div
+        className="mt-4 h-2 w-full overflow-hidden rounded-full bg-white/5"
+        role="progressbar"
+        aria-valuenow={value}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      >
         <div
           className="h-full rounded-full bg-gradient-to-r from-emerald to-cyan-accent shadow-[0_0_18px_oklch(0.78_0.17_158/0.6)] transition-[width] duration-1000 ease-out"
-          style={{ width: `${percent}%` }}
+          style={{ width: `${value}%` }}
         />
       </div>
 
-      <ul className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
-        {DONE.map((d) => (
-          <li key={d} className="flex items-center gap-2 rounded-lg border border-white/5 bg-white/[0.02] px-3 py-2 text-sm">
-            <span className="grid h-5 w-5 place-items-center rounded-full bg-emerald/15 text-emerald">
-              <Check className="h-3 w-3" />
+      <ul className="mt-5 space-y-2">
+        {CHECKS.map((label, i) => (
+          <li
+            key={label}
+            className="flex items-center gap-3 rounded-lg border border-white/5 bg-white/[0.02] px-3 py-2.5 text-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald/30 hover:bg-white/[0.04] animate-fade-up"
+            style={{ animationDelay: `${i * 80}ms` }}
+          >
+            <span className="grid h-6 w-6 place-items-center rounded-full bg-emerald/15 text-emerald">
+              <Check className="h-3.5 w-3.5" />
             </span>
-            {d}
+            <span className="flex-1">{label}</span>
+            <span aria-hidden className="text-emerald">✓</span>
           </li>
         ))}
       </ul>
 
       <div className="mt-5 rounded-xl border border-gold/25 bg-gold/5 p-4">
-        <div className="text-[10px] uppercase tracking-[0.22em] text-gold">⚠ Don't forget</div>
+        <div className="text-[10px] uppercase tracking-[0.22em] text-gold">
+          ⚠ Don't forget
+        </div>
         <ul className="mt-2 flex flex-wrap gap-2">
           {REMINDERS.map((r) => (
             <li
