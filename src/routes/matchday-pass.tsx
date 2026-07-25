@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { DashboardLayout } from "@/layouts/DashboardLayout";
 import { AIConcierge } from "@/components/dashboard/AIConcierge";
@@ -8,6 +9,7 @@ import { TravelPlanner } from "@/components/matchday/TravelPlanner";
 import { Essentials } from "@/components/matchday/Essentials";
 import { LiveAlerts } from "@/components/matchday/LiveAlerts";
 import { Readiness } from "@/components/matchday/Readiness";
+import { MatchdayPassSkeleton } from "@/components/matchday/Skeleton";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
 
 export const Route = createFileRoute("/matchday-pass")({
@@ -23,6 +25,13 @@ export const Route = createFileRoute("/matchday-pass")({
 
 function MatchdayPassPage() {
   const { user, ready } = useRequireAuth();
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoaded(true), 700);
+    return () => clearTimeout(t);
+  }, []);
+
   if (!ready || !user) return null;
 
   return (
@@ -37,22 +46,29 @@ function MatchdayPassPage() {
         </p>
       </div>
 
-      <div className="space-y-6">
-        <HeroPass fanName={user.name} fanId={`FIFA-${user.name.split(" ").map((s) => s[0]).join("")}-284917`} />
+      {!loaded ? (
+        <MatchdayPassSkeleton />
+      ) : (
+        <div className="space-y-6 animate-fade-up">
+          <HeroPass
+            fanName={user.name}
+            fanId={`FIFA-${user.name.split(" ").map((s) => s[0]).join("")}-284917`}
+          />
 
-        <div className="grid gap-6 lg:grid-cols-2">
-          <EntryStatus />
-          <GateRecommendation />
+          <div className="grid gap-6 lg:grid-cols-2">
+            <EntryStatus />
+            <GateRecommendation />
+          </div>
+
+          <TravelPlanner />
+          <Essentials />
+
+          <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+            <LiveAlerts />
+            <Readiness percent={100} />
+          </div>
         </div>
-
-        <TravelPlanner />
-        <Essentials />
-
-        <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-          <LiveAlerts />
-          <Readiness percent={90} />
-        </div>
-      </div>
+      )}
 
       <AIConcierge />
     </DashboardLayout>
