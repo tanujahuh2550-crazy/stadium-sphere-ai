@@ -1,5 +1,6 @@
 import { Clock, Train, Bus, ParkingCircle } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { Collapsible } from "./Collapsible";
 
 interface Stat {
   icon: LucideIcon;
@@ -18,20 +19,16 @@ const STATS: Stat[] = [
 
 export function TravelPlanner() {
   return (
-    <section className="glass rounded-2xl p-6">
-      <header className="mb-5 flex items-center justify-between">
-        <div>
-          <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Travel Planner</div>
-          <h2 className="mt-1 font-display text-lg">Your journey to the stadium</h2>
-        </div>
-        <span className="text-[10px] uppercase tracking-widest text-emerald">● Real-time</span>
-      </header>
-
+    <Collapsible
+      eyebrow="Travel Planner"
+      title="Your journey to the stadium"
+      right={<span className="text-[10px] uppercase tracking-widest text-emerald">● Real-time</span>}
+    >
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {STATS.map((s, i) => (
           <div
             key={s.label}
-            className="group relative overflow-hidden rounded-xl border border-white/5 bg-white/[0.02] p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald/30 hover:bg-white/[0.04]"
+            className="group relative overflow-hidden rounded-xl border border-white/5 bg-white/[0.02] p-4 transition-all duration-300 hover:-translate-y-1 hover:border-emerald/30 hover:bg-white/[0.04] hover:shadow-[0_16px_40px_-20px_oklch(0.78_0.17_158/0.4)] animate-fade-up"
             style={{ animationDelay: `${i * 60}ms` }}
           >
             <div aria-hidden className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-emerald/10 opacity-0 blur-2xl transition-opacity group-hover:opacity-100" />
@@ -42,6 +39,6 @@ export function TravelPlanner() {
           </div>
         ))}
       </div>
-    </section>
+    </Collapsible>
   );
 }

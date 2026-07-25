@@ -8,7 +8,7 @@ const CHECKS = [
 
 export function EntryStatus() {
   return (
-    <section className="glass rounded-2xl p-6">
+    <section className="glass rounded-2xl p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald/20 hover:shadow-[0_20px_60px_-20px_oklch(0.78_0.17_158/0.35)]">
       <header className="flex items-center justify-between">
         <div>
           <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">AI Entry Status</div>

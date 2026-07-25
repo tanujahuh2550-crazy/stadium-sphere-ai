@@ -105,10 +105,32 @@ export function QrTicket({ fanId, matchId }: Props) {
           </svg>
         </div>
       </div>
-      <div className="mt-4 flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-        <span aria-hidden className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-emerald" />
-        Refreshing in{" "}
-        <span className="font-display text-sm text-foreground">{countdown}s</span>
+      <div className="mt-4 w-full max-w-[220px]">
+        <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+          <span className="inline-flex items-center gap-1.5">
+            <span aria-hidden className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-emerald" />
+            Refreshing QR
+          </span>
+          <span className="font-display text-sm text-foreground tabular-nums">
+            {countdown}s
+          </span>
+        </div>
+        <div
+          className="mt-2 h-1 w-full overflow-hidden rounded-full bg-white/10"
+          role="progressbar"
+          aria-valuenow={countdown}
+          aria-valuemin={0}
+          aria-valuemax={12}
+          aria-label="QR refresh countdown"
+        >
+          <div
+            key={tick}
+            className="h-full origin-left rounded-full bg-gradient-to-r from-emerald to-cyan-accent shadow-[0_0_10px_oklch(0.78_0.17_158/0.6)]"
+            style={{
+              animation: "qr-refresh 12s linear forwards",
+            }}
+          />
+        </div>
       </div>
     </div>
   );
