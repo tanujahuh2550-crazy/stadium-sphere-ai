@@ -1,3 +1,4 @@
+import { Countdown } from "./Countdown";
 import { QrTicket } from "./QrTicket";
 
 interface Props {
@@ -9,14 +10,14 @@ export function HeroPass({ fanName, fanId }: Props) {
   return (
     <section
       aria-label="Matchday pass"
-      className="glass relative overflow-hidden rounded-3xl p-7 md:p-9"
+      className="glass relative overflow-hidden rounded-3xl p-7 md:p-9 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_30px_80px_-30px_oklch(0.78_0.17_158/0.5)]"
     >
       <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-emerald/15 blur-3xl" />
       <div aria-hidden className="pointer-events-none absolute -left-24 bottom-0 h-72 w-72 rounded-full bg-cyan-accent/15 blur-3xl" />
 
       <div className="relative grid gap-8 lg:grid-cols-[1fr_auto]">
         <div>
-          <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-emerald/90">
+          <div className="flex flex-wrap items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-emerald/90">
             <span className="rounded-full border border-emerald/30 bg-emerald/10 px-2.5 py-1">FIFA World Cup 2026</span>
             <span className="text-muted-foreground">Match #47 · Group Stage</span>
           </div>
@@ -25,9 +26,22 @@ export function HeroPass({ fanName, fanId }: Props) {
             Argentina <span className="text-muted-foreground/70">vs</span> Brazil
           </h1>
 
-          <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-emerald/30 bg-emerald/10 px-3.5 py-1.5 text-xs font-medium text-emerald">
-            <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-emerald shadow-[0_0_10px_oklch(0.78_0.17_158)]" />
-            Entry Ready
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <div
+              className="inline-flex items-center gap-2 rounded-full border border-emerald/40 bg-emerald/10 px-3.5 py-1.5 text-xs font-medium text-emerald animate-pulse-glow"
+              role="status"
+              aria-label="Entry ready"
+            >
+              <span
+                aria-hidden
+                className="relative inline-flex h-2 w-2"
+              >
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald opacity-70" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald shadow-[0_0_10px_oklch(0.78_0.17_158)]" />
+              </span>
+              Entry Ready
+            </div>
+            <Countdown />
           </div>
 
           <dl className="mt-8 grid max-w-md grid-cols-2 gap-x-8 gap-y-5 text-sm">
