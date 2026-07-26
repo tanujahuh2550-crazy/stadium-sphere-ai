@@ -1,7 +1,8 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Logo } from "@/components/Logo";
 import { ROLE_LABEL, type Role } from "@/services/authService";
-import { DASHBOARD_NAV, type NavItem } from "./navConfig";
+import { DASHBOARD_NAV } from "./navConfig";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface Props {
   collapsed: boolean;
@@ -10,6 +11,7 @@ interface Props {
 
 export function DashboardSidebar({ collapsed, role }: Props) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { t, transitionKey } = useTranslation();
 
   return (
     <aside
@@ -25,38 +27,39 @@ export function DashboardSidebar({ collapsed, role }: Props) {
           <Logo />
         )}
       </div>
-      <nav className="flex-1 space-y-1 p-3">
+      <nav key={transitionKey} className="animate-lang-fade flex-1 space-y-1 p-3">
         {DASHBOARD_NAV.map((n) => {
           const active = n.to ? pathname === n.to : !!n.active;
+          const label = t(n.labelKey);
           const content = (
             <>
               <span aria-hidden className={`text-base ${active ? "text-emerald" : ""}`}>{n.icon}</span>
               {!collapsed && (
                 <>
-                  <span className="flex-1">{n.label}</span>
+                  <span className="flex-1">{label}</span>
                   {n.soon && (
                     <span className="rounded-full border border-white/10 px-1.5 py-[1px] text-[9px] uppercase tracking-widest text-muted-foreground">
-                      Soon
+                      {t("nav.soon")}
                     </span>
                   )}
                 </>
               )}
             </>
           );
-          const cls = `group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald/60 ${
+          const cls = `group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-start text-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald/60 ${
             active
               ? "bg-white/[0.06] text-foreground"
               : "text-muted-foreground hover:bg-white/[0.04] hover:text-foreground"
           }`;
           if (n.to && !n.soon) {
             return (
-              <Link key={n.label} to={n.to} aria-current={active ? "page" : undefined} className={cls}>
+              <Link key={n.labelKey} to={n.to} aria-current={active ? "page" : undefined} className={cls}>
                 {content}
               </Link>
             );
           }
           return (
-            <button key={n.label} aria-current={active ? "page" : undefined} className={cls} disabled={n.soon}>
+            <button key={n.labelKey} aria-current={active ? "page" : undefined} className={cls} disabled={n.soon}>
               {content}
             </button>
           );
@@ -64,9 +67,9 @@ export function DashboardSidebar({ collapsed, role }: Props) {
       </nav>
       {!collapsed && (
         <div className="m-3 rounded-xl border border-white/5 bg-white/[0.02] p-4 text-xs text-muted-foreground">
-          <div className="mb-1 uppercase tracking-widest text-emerald/90">Access tier</div>
+          <div className="mb-1 uppercase tracking-widest text-emerald/90">{t("top.accessTier")}</div>
           <div className="font-display text-sm text-foreground">{ROLE_LABEL[role]}</div>
-          <div className="mt-1">Phase 1 · Foundation build</div>
+          <div className="mt-1">Phase 2 · Matchday build</div>
         </div>
       )}
     </aside>
