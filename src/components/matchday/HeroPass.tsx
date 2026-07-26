@@ -1,4 +1,5 @@
 import { Countdown } from "./Countdown";
+import { useTranslation } from "@/hooks/useTranslation";
 import { QrTicket } from "./QrTicket";
 
 interface Props {
@@ -7,6 +8,7 @@ interface Props {
 }
 
 export function HeroPass({ fanName, fanId }: Props) {
+  const { t } = useTranslation();
   return (
     <section
       aria-label="Matchday pass"
@@ -39,7 +41,7 @@ export function HeroPass({ fanName, fanId }: Props) {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald opacity-70" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald shadow-[0_0_10px_oklch(0.78_0.17_158)]" />
               </span>
-              Entry Ready
+              {t("pass.entryReady")}
             </div>
             <Countdown />
           </div>

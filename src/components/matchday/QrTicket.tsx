@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 /** Deterministic pseudo-random QR-like grid — pure visual, no scanning. */
 function useQrGrid(seed: string, size = 25) {
@@ -51,6 +52,7 @@ interface Props {
 }
 
 export function QrTicket({ fanId, matchId }: Props) {
+  const { t } = useTranslation();
   const [tick, setTick] = useState(0);
   const [countdown, setCountdown] = useState(12);
 
@@ -109,7 +111,7 @@ export function QrTicket({ fanId, matchId }: Props) {
         <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
           <span className="inline-flex items-center gap-1.5">
             <span aria-hidden className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-emerald" />
-            Refreshing QR
+            {t("pass.refreshingIn")}
           </span>
           <span className="font-display text-sm text-foreground tabular-nums">
             {countdown}s
