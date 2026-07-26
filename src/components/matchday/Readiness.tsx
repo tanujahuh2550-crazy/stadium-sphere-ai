@@ -1,11 +1,13 @@
 import { Check } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
+import type { TranslationKey } from "@/i18n";
 
-const CHECKS = [
-  "Ticket Verified",
-  "Identity Verified",
-  "Gate Assigned",
-  "Weather Checked",
-  "Travel Planned",
+const CHECKS: TranslationKey[] = [
+  "check.ticket",
+  "check.identity",
+  "check.gate",
+  "check.weather",
+  "check.travel",
 ];
 
 const REMINDERS = [
@@ -15,6 +17,7 @@ const REMINDERS = [
 ];
 
 export function Readiness({ percent }: { percent?: number }) {
+  const { t } = useTranslation();
   const value = percent ?? 100;
 
   return (
@@ -22,7 +25,7 @@ export function Readiness({ percent }: { percent?: number }) {
       <header className="flex items-center justify-between">
         <div>
           <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-            Matchday Readiness
+            {t("pass.readiness")}
           </div>
           <h2 className="mt-1 font-display text-lg">🏆 You're all set</h2>
         </div>
@@ -31,7 +34,7 @@ export function Readiness({ percent }: { percent?: number }) {
             {value}%
           </div>
           <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
-            Ready
+            {t("pass.ready")}
           </div>
         </div>
       </header>
@@ -50,16 +53,16 @@ export function Readiness({ percent }: { percent?: number }) {
       </div>
 
       <ul className="mt-5 space-y-2">
-        {CHECKS.map((label, i) => (
+        {CHECKS.map((key, i) => (
           <li
-            key={label}
+            key={key}
             className="flex items-center gap-3 rounded-lg border border-white/5 bg-white/[0.02] px-3 py-2.5 text-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald/30 hover:bg-white/[0.04] animate-fade-up"
             style={{ animationDelay: `${i * 80}ms` }}
           >
             <span className="grid h-6 w-6 place-items-center rounded-full bg-emerald/15 text-emerald">
               <Check className="h-3.5 w-3.5" />
             </span>
-            <span className="flex-1">{label}</span>
+            <span className="flex-1">{t(key)}</span>
             <span aria-hidden className="text-emerald">✓</span>
           </li>
         ))}

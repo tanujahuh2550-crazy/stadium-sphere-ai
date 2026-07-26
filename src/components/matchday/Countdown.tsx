@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 /** Target kickoff: next occurrence of 19:30 local time (visual only). */
 function nextKickoff() {
@@ -15,6 +16,7 @@ interface Unit {
 }
 
 export function Countdown() {
+  const { t } = useTranslation();
   const [target] = useState(() => nextKickoff());
   const [now, setNow] = useState(() => Date.now());
 
@@ -29,9 +31,9 @@ export function Countdown() {
   const s = Math.floor((diff % 60_000) / 1000);
 
   const units: Unit[] = [
-    { label: "Hours", value: String(h).padStart(2, "0") },
-    { label: "Minutes", value: String(m).padStart(2, "0") },
-    { label: "Seconds", value: String(s).padStart(2, "0") },
+    { label: t("pass.hrs"), value: String(h).padStart(2, "0") },
+    { label: t("pass.min"), value: String(m).padStart(2, "0") },
+    { label: t("pass.sec"), value: String(s).padStart(2, "0") },
   ];
 
   return (
@@ -41,7 +43,7 @@ export function Countdown() {
       aria-label="Countdown to kickoff"
     >
       <span className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-        Kickoff in
+        {t("pass.kickoffIn")}
       </span>
       <div className="flex items-center gap-1.5">
         {units.map((u, i) => (
@@ -51,7 +53,7 @@ export function Countdown() {
                 {u.value}
               </span>
               <span className="mt-0.5 text-[9px] uppercase tracking-widest text-muted-foreground">
-                {u.label.slice(0, 3)}
+                {u.label}
               </span>
             </div>
             {i < units.length - 1 && (

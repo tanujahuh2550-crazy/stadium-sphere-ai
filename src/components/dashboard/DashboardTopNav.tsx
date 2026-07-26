@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/Logo";
+import { LanguageSelector } from "@/components/LanguageSelector";
 import { ROLE_LABEL, type AuthUser } from "@/services/authService";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface Props {
   user: AuthUser;
@@ -9,29 +11,33 @@ interface Props {
 }
 
 export function DashboardTopNav({ user, onToggle, onSignOut }: Props) {
+  const { t, transitionKey } = useTranslation();
+
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-white/5 bg-navy-deep/70 px-4 backdrop-blur-xl md:px-8">
+    <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-white/5 bg-navy-deep/70 px-4 backdrop-blur-xl md:gap-4 md:px-8">
       <button
         onClick={onToggle}
         aria-label="Toggle sidebar"
-        className="grid h-9 w-9 place-items-center rounded-lg border border-white/10 text-muted-foreground hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald/60"
+        className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-white/10 text-muted-foreground hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald/60"
       >
         <span aria-hidden>☰</span>
       </button>
       <div className="md:hidden">
         <Logo />
       </div>
-      <div className="hidden flex-1 md:block">
-        <div className="max-w-md rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-sm text-muted-foreground">
-          <span aria-hidden className="mr-2 text-emerald">⌕</span>Search stadiums, incidents, guests…
+      <div key={transitionKey} className="animate-lang-fade hidden flex-1 lg:block">
+        <div className="max-w-md truncate rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-sm text-muted-foreground">
+          <span aria-hidden className="me-2 text-emerald">⌕</span>
+          {t("top.search")}
         </div>
       </div>
-      <div className="ml-auto flex items-center gap-3">
-        <span className="hidden text-xs uppercase tracking-[0.2em] text-muted-foreground md:inline">
-          <span aria-hidden className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-emerald align-middle" />
-          Systems nominal
+      <div className="ms-auto flex items-center gap-2 md:gap-3">
+        <span className="hidden text-xs uppercase tracking-[0.2em] text-muted-foreground xl:inline">
+          <span aria-hidden className="me-2 inline-block h-1.5 w-1.5 rounded-full bg-emerald align-middle" />
+          {t("top.systems")}
         </span>
-        <div className="hidden text-right md:block">
+        <LanguageSelector variant="compact" className="hidden sm:flex" />
+        <div className="hidden text-end md:block">
           <div className="text-sm font-medium">{user.name}</div>
           <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
             {ROLE_LABEL[user.role]}
@@ -39,12 +45,12 @@ export function DashboardTopNav({ user, onToggle, onSignOut }: Props) {
         </div>
         <div
           aria-hidden
-          className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-emerald to-cyan-accent font-display text-sm text-navy-deep"
+          className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gradient-to-br from-emerald to-cyan-accent font-display text-sm text-navy-deep"
         >
           {user.name.slice(0, 1).toUpperCase()}
         </div>
         <Button variant="ghost" size="sm" onClick={onSignOut}>
-          Sign out
+          {t("top.signOut")}
         </Button>
       </div>
     </header>

@@ -4,13 +4,14 @@ import { DashboardLayout } from "@/layouts/DashboardLayout";
 import { AIConcierge } from "@/components/dashboard/AIConcierge";
 import { HeroPass } from "@/components/matchday/HeroPass";
 import { EntryStatus } from "@/components/matchday/EntryStatus";
-import { GateRecommendation } from "@/components/matchday/GateRecommendation";
+import { SmartNavigation } from "@/components/matchday/SmartNavigation";
 import { TravelPlanner } from "@/components/matchday/TravelPlanner";
 import { Essentials } from "@/components/matchday/Essentials";
 import { LiveAlerts } from "@/components/matchday/LiveAlerts";
 import { Readiness } from "@/components/matchday/Readiness";
 import { MatchdayPassSkeleton } from "@/components/matchday/Skeleton";
 import { useRequireAuth } from "@/hooks/useRequireAuth";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export const Route = createFileRoute("/matchday-pass")({
   head: () => ({
@@ -25,6 +26,7 @@ export const Route = createFileRoute("/matchday-pass")({
 
 function MatchdayPassPage() {
   const { user, ready } = useRequireAuth();
+  const { t, transitionKey } = useTranslation();
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -36,13 +38,13 @@ function MatchdayPassPage() {
 
   return (
     <DashboardLayout user={user}>
-      <div className="mb-8 animate-fade-up">
-        <div className="text-xs uppercase tracking-[0.24em] text-emerald/90">Matchday Pass</div>
+      <div key={transitionKey} className="mb-8 animate-lang-fade">
+        <div className="text-xs uppercase tracking-[0.24em] text-emerald/90">{t("pass.eyebrow")}</div>
         <h1 className="mt-2 font-display text-3xl font-semibold md:text-4xl">
-          Your entry to the World Cup, in one place.
+          {t("pass.title")}
         </h1>
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-          Secure dynamic ticket, AI gate routing, travel timing, and live alerts — updated in real time as you move.
+          {t("pass.subtitle")}
         </p>
       </div>
 
@@ -55,10 +57,9 @@ function MatchdayPassPage() {
             fanId={`FIFA-${user.name.split(" ").map((s) => s[0]).join("")}-284917`}
           />
 
-          <div className="grid gap-6 lg:grid-cols-2">
-            <EntryStatus />
-            <GateRecommendation />
-          </div>
+          <EntryStatus />
+
+          <SmartNavigation />
 
           <TravelPlanner />
           <Essentials />

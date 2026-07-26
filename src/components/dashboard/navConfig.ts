@@ -1,6 +1,8 @@
+import type { TranslationKey } from "@/i18n";
+
 /** Sidebar navigation config — extend as Phase 2 modules ship. */
 export interface NavItem {
-  label: string;
+  labelKey: TranslationKey;
   icon: string;
   to?: string;
   active?: boolean;
@@ -8,11 +10,11 @@ export interface NavItem {
 }
 
 export const DASHBOARD_NAV: NavItem[] = [
-  { label: "Overview", icon: "◎", to: "/dashboard" },
-  { label: "Matchday Pass", icon: "◆", to: "/matchday-pass" },
-  { label: "AI Concierge", icon: "✦", soon: true },
-  { label: "Crowd Intelligence", icon: "◈", soon: true },
-  { label: "Incident Reporting", icon: "▲", soon: true },
-  { label: "Transportation", icon: "→", soon: true },
-  { label: "Sustainability", icon: "✿", soon: true },
+  { labelKey: "nav.overview", icon: "◎", to: "/dashboard" },
+  { labelKey: "nav.matchdayPass", icon: "◆", to: "/matchday-pass" },
+  { labelKey: "nav.aiConcierge", icon: "✦", soon: true },
+  { labelKey: "nav.crowd", icon: "◈", soon: true },
+  { labelKey: "nav.incident", icon: "▲", soon: true },
+  { labelKey: "nav.transport", icon: "→", soon: true },
+  { labelKey: "nav.sustainability", icon: "✿", soon: true },
 ];
